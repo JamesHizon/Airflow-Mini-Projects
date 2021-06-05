@@ -1,8 +1,8 @@
-# Airflow-Mini-Projects
+# Airflow Mini Projects
 
 This repository will include both Airflow Mini-Projects from Springboard.
 
-## Airflow Mini-Project 1 - DAG Scheduling
+## Airflow Mini Project 1 - DAG Scheduling
 #### In this mini-project, I use Apache Airflow to create a data pipeline to extract online stock market data and deliver analytical results using Yahoo Finance as a data source.
 
 ### Prerequisites:
