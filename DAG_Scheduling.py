@@ -11,6 +11,8 @@
 # https://airflow.apache.org/docs/apache-airflow/stable/tutorial.html
 
 # Import Packages
+import sys
+import logging
 import yfinance as yf
 import pandas as pd
 from airflow import DAG
@@ -33,8 +35,8 @@ def download_file(stock_ticker):
     """
     start_date = today
     end_date = start_date + timedelta(days=1)
-    df = yf.download(stock_ticker, start=start_date, end=end_date, interval='lm')
-    df.to_csv(stock_ticker + '_data.csv', header=False)
+    df = yf.download(stock_ticker, start=start_date, end=end_date, interval='1m')
+    df.to_csv(stock_ticker + '_data.csv', header=True)
 
 
 # Create function for task 5
@@ -45,11 +47,12 @@ def run_custom_query():
     sorted by "date time" in ascending order. Then, we return custom_query
     (find middle value of high and low for each stock).
 
-    :return: Spread of data for Apple and Tesla stock stored inside list object.
+    :return: Custom query of data (middle value between high and low) for Apple and Tesla stock stored inside list object.
     """
-    apple_df = pd.read_csv("tmp/data/AAPL_data.csv").sort_values(by="date time", ascending=False)
-    tesla_df = pd.read_csv("tmp/data/TSLA_data.csv").sort_values(by="date time", ascending=False)
-    custom_query = [(apple_df['high'][0] + apple_df['low'][0]) / 2, (tesla_df['high'][0] + tesla_df['low'][0]) / 2]
+    apple_df = pd.read_csv("/tmp/data/" + str(today) + "/AAPL_data.csv", header=0)
+    tesla_df = pd.read_csv("/tmp/data/" + str(today) + "/TSLA_data.csv", header=0)
+    custom_query = [(apple_df['High'][0] + apple_df['Low'][0]) / 2, (tesla_df['High'][0] + tesla_df['Low'][0]) / 2]
+    print(f"Custom query: {custom_query}")
     return custom_query
 
 
@@ -58,12 +61,12 @@ today = date.today()
 
 # Default arguments for DAG creation
 default_args = {
-    'owner': 'airflow',
-    'start_date': datetime(2021, 2, 6),
-    'depends_on_past': False,
-    'email_on_failure': False,
-    'retries': 2,
-    'retry_delay': timedelta(minutes=5)
+    'owner': 'admin2',
+    'start_date': datetime.now() - timedelta(days=1)  # ,
+    # 'depends_on_past': False,
+    # 'email_on_failure': False,
+    # 'retries': 2,
+    # 'retry_delay': timedelta(minutes=5)
 }
 
 # Cron expression example:
@@ -88,55 +91,53 @@ default_args = {
 # hour to 18 because of "PM", day of month to *, month to *
 # and day of week to 1-5 (M-f).
 
-dag = DAG(dag_id='marketvol',
-          default_args=default_args,
-          description='DAG to extract Apple and Tesla data and run custom query',
-          # schedule_interval="* 18 * * 1-5"  # Can alter argument to run immediately.
-          # Change to --> @hourly or '* * * * *' --> for every minute.
-          # schedule_interval='* * * * *'
-          schedule_interval=None  # '13 15 * * *'
-          )
 
-# Create BashOperator to initialized temporary directory for data download (t0)
-t0 = BashOperator(
-    task_id="t0",
-    bash_command="mkdir -p /tmp/data/" + str(today),
-    dag=dag
-)
+with DAG(dag_id='marketvol',
+         default_args=default_args,
+         description='DAG to extract Apple and Tesla data '
+                     'and run custom query',
+                # schedule_interval="* 18 * * 1-5"
+                # Change to --> @hourly or '* * * * *' --> for every minute.
+                schedule_interval='0 16 * * 1-6'
+         ) as dag:
 
-t1 = PythonOperator(
-    task_id="t1",
-    python_callable=download_file,
-    op_kwargs={'stock_ticker': 'TSLA'},
-    dag=dag
-)
+    # Create BashOperator to initialized temporary directory for data download (t0)
+    t0 = BashOperator(
+        task_id="t0",
+        bash_command="mkdir -p /tmp/data/" + str(today)
+    )
 
-t2 = PythonOperator(
-    task_id="t2",
-    python_callable=download_file,
-    op_kwargs={'stock_ticker': 'AAPL'},
-    dag=dag
-)
+    t1 = PythonOperator(
+        task_id="t1",
+        python_callable=download_file,
+        op_kwargs={'stock_ticker': 'TSLA'}
+    )
 
-t3 = BashOperator(
-    task_id='t3',
-    bash_command='mv TSLA_data.csv /tmp/data/' + str(today) + "/",
-    dag=dag
-)
+    t2 = PythonOperator(
+        task_id="t2",
+        python_callable=download_file,
+        op_kwargs={'stock_ticker': 'AAPL'}
+    )
 
-t4 = BashOperator(
-    task_id='t4',
-    bash_command='mv AAPL_data.csv /tmp/data/' + str(today) + "/",
-    dag=dag
-)
+    t3 = BashOperator(
+        task_id='t3',
+        bash_command='mv /opt/airflow/TSLA_data.csv /tmp/data/' + str(today) + "/"
+    )
 
-t5 = PythonOperator(
-    task_id="t5",
-    python_callable=run_custom_query,
-    dag=dag
-)
+    t4 = BashOperator(
+        task_id='t4',
+        bash_command='mv /opt/airflow/AAPL_data.csv /tmp/data/' + str(today) + "/"
+    )
+
+    t5 = PythonOperator(
+        task_id="t5",
+        python_callable=run_custom_query
+    )
+
 
 # Set job dependencies
 
 t0 >> t1 >> t3 >> t5
 t0 >> t2 >> t4
+
+# Log file is present in DAG_Scheduling.py.log.
