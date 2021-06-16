@@ -11,24 +11,8 @@ Also, install using command: ```pip install apache-airflow```
 2) Use Yahoo Finance's Python library: ```pip install yfinance```
 3) Install pandas: ```pip install pandas```.
 
-### How to execute run DAG:
-First, set up airflow database, web server and scheduler. Note that login info may be required (see Airflow document).
-```
-airflow initdb
-airflow webserver
-airflow scheduler
-```
-Then, go to airflow directory. 
+### Update:
+I had to use run Airflow on ```Docker```, so I did not end up requiring the previously installed ```apache-airflow```. Thus, refer to ```Command_Line_Execution.txt``` file to see how I executed my Python script.
 
-```
-cd Airflow
-cd dags
-```
 
-Next, copy Python file into dag folder based on working directory. (Copy and paste full Python file directory vs. what is shown.)
-
-```
-cp ~/DAG_Scheduling.py
-```
-
-Now, type ```localhost:8080``` into browser to observe Airflow UI to analyze Airflow DAG information.
+After completing necessary steps in command line, type ```localhost:8080``` into browser to observe Airflow UI to analyze Airflow DAG information.
