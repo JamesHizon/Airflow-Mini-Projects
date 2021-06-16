@@ -13,6 +13,6 @@ Also, install using command: ```pip install apache-airflow```
 
 ### Update:
 I had to use run Airflow on ```Docker```, so I did not end up requiring the previously installed ```apache-airflow```. Thus, refer to ```Command_Line_Execution.txt``` file to see how I executed my Python script.
-
+I instead had to work w/ a provided folder from Springboard mentor to run airflow, where you can email me at jrhizon@ucdavis.edu and I will get back to you as soon as possible.
 
 After completing necessary steps in command line, type ```localhost:8080``` into browser to observe Airflow UI to analyze Airflow DAG information.
