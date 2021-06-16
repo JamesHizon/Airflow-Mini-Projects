@@ -1,0 +1,173 @@
+(base) jameshizon@Jamess-MBP Downloads % cd springboard-airflow
+(base) jameshizon@Jamess-MBP springboard-airflow % ls
+docker			mnt			start.sh
+docker-compose.yml	reset.sh		stop.sh
+docs			restart.sh
+(base) jameshizon@Jamess-MBP springboard-airflow % cd mnt
+(base) jameshizon@Jamess-MBP mnt % cd
+(base) jameshizon@Jamess-MBP ~ % ls
+AzCopy		JupyterNB	Pictures	airflow
+Desktop		Library		Public		airflow-docker
+Documents	Movies		PycharmProjects	getting-started
+Downloads	Music		Spark		opt
+(base) jameshizon@Jamess-MBP ~ % cd Downloads/springboard-airflow/mnt/dags
+cd: no such file or directory: Downloads/springboard-airflow/mnt/dags
+(base) jameshizon@Jamess-MBP ~ % cd Downloads/springboard-airflow/mnt/
+(base) jameshizon@Jamess-MBP mnt % ls
+airflow
+(base) jameshizon@Jamess-MBP mnt % cd airflow
+(base) jameshizon@Jamess-MBP airflow % ls
+airflow.cfg	dags
+(base) jameshizon@Jamess-MBP airflow % cd dags
+(base) jameshizon@Jamess-MBP dags % ls
+__pycache__		data_pipeline.py	files
+(base) jameshizon@Jamess-MBP dags % cp /Users/jameshizon/PycharmProjects/MiniProjects/Airflow/DAG_Scheduling.py .
+(base) jameshizon@Jamess-MBP dags % cd ..
+(base) jameshizon@Jamess-MBP airflow % ls
+airflow.cfg	dags
+(base) jameshizon@Jamess-MBP airflow % cd ..
+(base) jameshizon@Jamess-MBP mnt % ls
+airflow
+(base) jameshizon@Jamess-MBP mnt % cd ..
+(base) jameshizon@Jamess-MBP springboard-airflow % ls
+docker			mnt			start.sh
+docker-compose.yml	reset.sh		stop.sh
+docs			restart.sh
+(base) jameshizon@Jamess-MBP springboard-airflow % ./start.sh
+Docker Compose is now in the Docker CLI, try `docker compose up`
+
+Creating network "airflow-network" with the default driver
+Building postgres
+[+] Building 18.8s (8/8) FINISHED
+ => [internal] load build definition from Dockerfile                       0.0s
+ => => transferring dockerfile: 289B                                       0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 2B                                            0.0s
+ => [internal] load metadata for docker.io/library/postgres:11.4-alpine    2.0s
+ => [internal] load build context                                          0.0s
+ => => transferring context: 670B                                          0.0s
+ => [1/3] FROM docker.io/library/postgres:11.4-alpine@sha256:4e1c3bc6bc8  16.3s
+ => => resolve docker.io/library/postgres:11.4-alpine@sha256:4e1c3bc6bc80  0.0s
+ => => sha256:9a0b1fe656d18b0562ac6a83ff4e83a737500ad3eebdf02 146B / 146B  0.2s
+ => => sha256:c2a10a40dfa4de9345290b475966eea7d7ab4a585028e89 115B / 115B  0.3s
+ => => sha256:4e1c3bc6bc803d239613375ad8b8525ef8e9bce43ff 1.65kB / 1.65kB  0.0s
+ => => sha256:8ca35fbfc9a9fdd7ca3ca684cfdef59aed06e44986e 2.19kB / 2.19kB  0.0s
+ => => sha256:5239fade3a90b73a10592a252289d6d916d050f39da 7.85kB / 7.85kB  0.0s
+ => => sha256:0503825856099e6adb39c8297af09547f69684b7016 2.79MB / 2.79MB  3.0s
+ => => sha256:bae408503ba6a2faffdad4aa3e21446e31a6e0e5 25.45MB / 25.45MB  14.7s
+ => => sha256:22dc99b034249ad118836cabf24b9a7fcaed1426849 7.52kB / 7.52kB  0.8s
+ => => sha256:ebaf77ffbfea7df866ae8fdef8717a81110030a97fc3aaa 129B / 129B  1.1s
+ => => sha256:5d8d1c5a9d189d1301728789ebb3d1dd65eea51b4067f06 162B / 162B  1.4s
+ => => sha256:4156e05898ed13b5ae7ef165e0cf25cf0c3828e9f40 2.37kB / 2.37kB  1.8s
+ => => sha256:fc3506be1964b3409a76e0da2cd3b90b633db6907a8c520 121B / 121B  2.2s
+ => => extracting sha256:0503825856099e6adb39c8297af09547f69684b7016b7f36  0.2s
+ => => extracting sha256:9a0b1fe656d18b0562ac6a83ff4e83a737500ad3eebdf02c  0.0s
+ => => extracting sha256:c2a10a40dfa4de9345290b475966eea7d7ab4a585028e894  0.0s
+ => => extracting sha256:bae408503ba6a2faffdad4aa3e21446e31a6e0e5ff71565f  1.1s
+ => => extracting sha256:22dc99b034249ad118836cabf24b9a7fcaed1426849636c9  0.0s
+ => => extracting sha256:ebaf77ffbfea7df866ae8fdef8717a81110030a97fc3aaa2  0.0s
+ => => extracting sha256:5d8d1c5a9d189d1301728789ebb3d1dd65eea51b4067f065  0.0s
+ => => extracting sha256:4156e05898ed13b5ae7ef165e0cf25cf0c3828e9f4091097  0.0s
+ => => extracting sha256:fc3506be1964b3409a76e0da2cd3b90b633db6907a8c5202  0.0s
+ => [2/3] COPY init-hive-db.sh /docker-entrypoint-initdb.d/init-hive-db.s  0.1s
+ => [3/3] RUN chmod +x /docker-entrypoint-initdb.d/init-hive-db.sh         0.2s
+ => exporting to image                                                     0.0s
+ => => exporting layers                                                    0.0s
+ => => writing image sha256:5578eabf9b06848805d4b742c1dfe34b1f4a9ad3bb467  0.0s
+ => => naming to docker.io/library/springboard-airflow_postgres            0.0s
+
+Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
+Pulling adminer (wodby/adminer:latest)...
+latest: Pulling from wodby/adminer
+801bfaa63ef2: Pull complete
+30e209609427: Pull complete
+320f26ee9b1c: Pull complete
+4612e05a72cf: Pull complete
+15edc7b93431: Pull complete
+aa518ebc285f: Pull complete
+146fb74cf156: Pull complete
+521c9753da17: Pull complete
+4a8051a0a976: Pull complete
+911a6307e631: Pull complete
+7967614d44aa: Pull complete
+4f4fb700ef54: Pull complete
+08220320d5f3: Pull complete
+705bf263fa56: Pull complete
+a3e6192e4fd2: Pull complete
+d2a90dd1306f: Pull complete
+1051a42a9d98: Pull complete
+e8cadb679d5b: Pull complete
+Digest: sha256:c1aa0128a09f4e51d9151e124027a4e73c7a3c5c82772d0c0ac814835267333f
+Status: Downloaded newer image for wodby/adminer:latest
+Building airflow
+[+] Building 575.7s (13/13) FINISHED
+ => [internal] load build definition from Dockerfile                       0.0s
+ => => transferring dockerfile: 2.31kB                                     0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 2B                                            0.0s
+ => [internal] load metadata for docker.io/library/python:3.8-slim         2.0s
+ => [internal] load build context                                          0.0s
+ => => transferring context: 11.65kB                                       0.0s
+ => [1/8] FROM docker.io/library/python:3.8-slim@sha256:c9dc8cd1171771e7  23.4s
+ => => resolve docker.io/library/python:3.8-slim@sha256:c9dc8cd1171771e7f  0.0s
+ => => sha256:c9dc8cd1171771e7f0def12be61d7bb340480e73b4e 1.86kB / 1.86kB  0.0s
+ => => sha256:0ffccea3f91806abb0a76eced3da5db52f77fd52aa9 1.37kB / 1.37kB  0.0s
+ => => sha256:f2c36f6f6523d27f1af9c92b9d181ea90a5c462fa87 7.67kB / 7.67kB  0.0s
+ => => sha256:69692152171afee1fd341febc390747cfca2ff30 27.15MB / 27.15MB  21.1s
+ => => sha256:66a3c154490aa1f5ce65f9ce452f5f38176c3f111ed 2.77MB / 2.77MB  4.7s
+ => => sha256:3e35bdfb65b21f9c8c09ff302524ad3beb876ce4 10.73MB / 10.73MB  12.0s
+ => => sha256:f2c4c435507305290e1abbb5f643bc7e8c7a1c1002d4dec 233B / 233B  5.0s
+ => => sha256:65d67526c337aec6f9d91bf6311b1804dad18d7abf9 2.64MB / 2.64MB  9.5s
+ => => extracting sha256:69692152171afee1fd341febc390747cfca2ff302f2881d8  1.1s
+ => => extracting sha256:66a3c154490aa1f5ce65f9ce452f5f38176c3f111ed0db0e  0.2s
+ => => extracting sha256:3e35bdfb65b21f9c8c09ff302524ad3beb876ce49357162d  0.4s
+ => => extracting sha256:f2c4c435507305290e1abbb5f643bc7e8c7a1c1002d4dec6  0.0s
+ => => extracting sha256:65d67526c337aec6f9d91bf6311b1804dad18d7abf983b32  0.2s
+ => [2/8] RUN apt-get update -y &&     apt-get upgrade -yqq &&     apt-  345.7s
+ => [3/8] COPY ./requirements-python3.7.txt /requirements-python3.7.txt    0.0s
+ => [4/8] RUN pip install --upgrade "pip==20.2.4" &&     useradd -ms /b  199.9s
+ => [5/8] RUN chown -R airflow: /opt/airflow                               0.4s
+ => [6/8] COPY ./start-airflow.sh ./start-airflow.sh                       0.0s
+ => [7/8] RUN chmod +x ./start-airflow.sh                                  0.2s
+ => [8/8] RUN mkdir -p /opt/airflow/dags                                   0.2s
+ => exporting to image                                                     3.6s
+ => => exporting layers                                                    3.6s
+ => => writing image sha256:f26c48d706498bd585024ba6fc3225eb49827b2bb22ec  0.0s
+ => => naming to docker.io/library/springboard-airflow_airflow             0.0s
+
+Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
+Creating adminer  ... done
+Creating airflow  ... done
+Creating postgres ... done
+(base) jameshizon@Jamess-MBP springboard-airflow % docker-compose ps
+  Name            Command                  State                   Ports
+--------------------------------------------------------------------------------
+adminer    /entrypoint.sh php -S   Up (healthy)            0.0.0.0:32767->9000/t
+           0.0. ...                                        cp,:::32767->9000/tcp
+airflow    ./start-airflow.sh      Up (health: starting)   0.0.0.0:8080->8080/tc
+                                                           p,:::8080->8080/tcp
+postgres   docker-entrypoint.sh    Up (healthy)            0.0.0.0:32769->5432/t
+           postgres                                        cp,:::32769->5432/tcp
+(base) jameshizon@Jamess-MBP springboard-airflow % docker-compose ps
+  Name              Command                State                 Ports
+--------------------------------------------------------------------------------
+adminer    /entrypoint.sh php -S 0.0.   Up (healthy)   0.0.0.0:32767->9000/tcp,:
+           ...                                         ::32767->9000/tcp
+airflow    ./start-airflow.sh           Up (healthy)   0.0.0.0:8080->8080/tcp,::
+                                                       :8080->8080/tcp
+postgres   docker-entrypoint.sh         Up (healthy)   0.0.0.0:32769->5432/tcp,:
+           postgres                                    ::32769->5432/tcp
+(base) jameshizon@Jamess-MBP springboard-airflow % cd mnt
+(base) jameshizon@Jamess-MBP mnt % ls
+airflow
+(base) jameshizon@Jamess-MBP mnt % cd airflow
+(base) jameshizon@Jamess-MBP airflow % ls
+airflow.cfg	dags
+(base) jameshizon@Jamess-MBP airflow % cd dags
+(base) jameshizon@Jamess-MBP dags % ls
+DAG_Scheduling.py	data_pipeline.py
+__pycache__		files
+(base) jameshizon@Jamess-MBP dags % rm data_pipeline.py
+(base) jameshizon@Jamess-MBP dags % ls
+DAG_Scheduling.py	__pycache__		files
+(base) jameshizon@Jamess-MBP dags % cp /Users/jameshizon/PycharmProjects/MiniProjects/Airflow/DAG_Scheduling.py
